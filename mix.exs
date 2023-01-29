@@ -47,9 +47,10 @@ defmodule Ex2048.MixProject do
 
   defp aliases do
     [
-      setup: ["deps.get"],
       "assets.deploy": ["esbuild default --minify", "phx.digest"],
       check: ["credo --strict", "dialyzer"],
+      serve: "phx.server",
+      setup: ["deps.get"],
       tt: "test --trace",
       "test.slow": "test --slowest 10"
     ]

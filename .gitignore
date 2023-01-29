@@ -32,3 +32,15 @@ ex2048-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Ignore docker volumes
+.volumes/
+
+# Ignore PLTs files
+/priv/plts/*.plt
+/priv/plts/*.plt.hash
+
+# Ignore coveralls files
+excoveralls.*
+
+# TODO file for work-in-progress
+TODO

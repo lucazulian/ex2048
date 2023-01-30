@@ -16,7 +16,8 @@ config :ex2048, Ex2048Web.Endpoint,
   secret_key_base: "fikVOQFObj5vY92ppu4eDUyRO7MbzEeWg/5pLLOVEghevPQuHC/K721mQ3ct/dF/",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 # ## SSL Support

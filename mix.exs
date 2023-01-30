@@ -43,13 +43,14 @@ defmodule Ex2048.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6", only: :dev, runtime: false},
       {:dialyxir, "~> 1.2", only: :dev, runtime: false},
-      {:excoveralls, "~> 0.15.3", only: :test}
+      {:excoveralls, "~> 0.15.3", only: :test},
+      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev}
     ]
   end
 
   defp aliases do
     [
-      "assets.deploy": ["esbuild default --minify", "phx.digest"],
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
       check: ["credo --strict", "dialyzer"],
       serve: "phx.server",
       setup: ["deps.get"],

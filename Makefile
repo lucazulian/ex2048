@@ -7,7 +7,7 @@
 all: init
 
 .NOTPARALLEL:
-.PHONY: init setup start up build shell delete stats
+.PHONY: init setup start up build shell halt delete stats
 
 exec-in-docker = docker-compose exec game
 

@@ -8,6 +8,7 @@ on:
 
 env:
   MIX_ENV: test
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 permissions:
   contents: read
@@ -64,3 +65,6 @@ jobs:
 
       - name: Run tests
         run: mix test
+
+      - name: Run code coverage
+        run: mix coveralls.github

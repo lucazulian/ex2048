@@ -12,7 +12,8 @@ defmodule Ex2048.MixProject do
       aliases: aliases(),
       deps: deps(),
       dialyzer: dialyzer(),
-      preferred_cli_env: preferred_cli_env()
+      preferred_cli_env: preferred_cli_env(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -41,7 +42,8 @@ defmodule Ex2048.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.2", only: :dev, runtime: false}
+      {:dialyxir, "~> 1.2", only: :dev, runtime: false},
+      {:excoveralls, "~> 0.15.3", only: :test}
     ]
   end
 
@@ -58,6 +60,10 @@ defmodule Ex2048.MixProject do
 
   defp preferred_cli_env do
     [
+      coveralls: :test,
+      "coveralls.detail": :test,
+      "coveralls.post": :test,
+      "coveralls.html": :test,
       "test.slow": :test,
       tt: :test
     ]

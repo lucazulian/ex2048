@@ -194,6 +194,12 @@
 .grid-cell-inner-2048{
 background: #edc22e;
 }
+.grid-cell-inner-4096{
+background: #66ccff;
+}
+.grid-cell-inner-8192{
+background: #0077b3;
+}
 .grid-cell-inner-obstacle{
   width: 97.5px;
   height: 97.5px;

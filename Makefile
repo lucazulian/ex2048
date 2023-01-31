@@ -13,22 +13,22 @@ exec-in-docker = docker-compose exec game
 
 init: up setup
 
-setup: up							## Setup application database
+setup: up							## Setup application
 	${exec-in-docker} mix setup
 
 start: up							## Start application
 	${exec-in-docker} mix serve
 
-up:									## Start all services
+up:									## Start all containers
 	docker-compose up -d --remove-orphans
 
-build:								## Build all services containers
+build:								## Build all containers
 	docker-compose build
 
-shell: container-game				## Enter into game service
+shell: container-game				## Enter into game container
 	${exec-in-docker} bash
 
-halt:								## Shoutdown all services containers
+halt:								## Shoutdown all containers
 	docker-compose down
 
 delete: halt						## Delete all containers, images and volumes

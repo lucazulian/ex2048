@@ -17,18 +17,16 @@ defmodule Ex2048Web.GameLive.Index do
 
   @impl true
   def handle_params(%{"id" => id} = _params, _uri, socket) do
-    case Registry.lookup(Ex2048.GameRegistry, id) do
-      [_] ->
-        :ok = Phoenix.PubSub.subscribe(Ex2048.PubSub, id)
-        {:noreply, assign_game(socket, id)}
-
-      _ ->
-        {:noreply, socket |> assign(game: nil) |> put_flash(:error, "game not found")}
+    if Game.exists?(id) do
+      :ok = Phoenix.PubSub.subscribe(Ex2048.PubSub, id)
+      {:noreply, assign_game(socket, id)}
+    else
+      {:noreply, socket |> assign(game: nil) |> put_flash(:error, "game not found")}
     end
   end
 
   def handle_params(_params, _uri, socket) do
-    {:ok, id} = create_new_game(@default_size, @default_obstacles)
+    {:ok, id} = Game.new(@default_size, @default_obstacles)
     {:noreply, push_redirect(socket, to: "/game/#{id}", replace: true)}
   end
 
@@ -40,11 +38,11 @@ defmodule Ex2048Web.GameLive.Index do
       ) do
     with {size, ""} <- Integer.parse(size_input),
          {obstacles, ""} <- Integer.parse(obstacles_input) do
-      {:ok, id} = create_new_game(size, obstacles)
+      {:ok, id} = Game.new(size, obstacles)
       {:noreply, push_redirect(socket, to: "/game/#{id}", replace: true)}
     else
       _ ->
-        {:noreply, socket |> assign(game: nil) |> put_flash(:error, "invalid inputs")}
+        {:noreply, socket |> assign(game: nil) |> put_flash(:error, "invalid input")}
     end
   end
 
@@ -64,10 +62,6 @@ defmodule Ex2048Web.GameLive.Index do
     {:noreply, assign_game(socket)}
   end
 
-  defp via_tuple(id) do
-    {:via, Registry, {Ex2048.GameRegistry, id}}
-  end
-
   defp assign_game(socket, id) do
     socket
     |> assign(id: id)
@@ -75,39 +69,12 @@ defmodule Ex2048Web.GameLive.Index do
   end
 
   defp assign_game(%{assigns: %{id: id}} = socket) do
-    game = GenServer.call(via_tuple(id), :game)
-    assign(socket, game: game)
+    assign(socket, game: Game.pick(id))
   end
 
-  defp create_new_game(size, obstacles) do
-    id =
-      ?a..?z
-      |> Enum.take_random(20)
-      |> List.to_string()
-
-    case DynamicSupervisor.start_child(
-           Ex2048.GameSupervisor,
-           {Game, name: via_tuple(id), game_size: size, game_obstacles: obstacles}
-         ) do
-      {:ok, _pid} ->
-        {:ok, id}
-
-      error ->
-        error
-    end
-  end
-
-  defp move_from_key_code("ArrowLeft", id), do: move(id, :left)
-
-  defp move_from_key_code("ArrowUp", id), do: move(id, :up)
-
-  defp move_from_key_code("ArrowRight", id), do: move(id, :right)
-
-  defp move_from_key_code("ArrowDown", id), do: move(id, :down)
-
+  defp move_from_key_code("ArrowLeft", id), do: Game.move(id, :left)
+  defp move_from_key_code("ArrowUp", id), do: Game.move(id, :up)
+  defp move_from_key_code("ArrowRight", id), do: Game.move(id, :right)
+  defp move_from_key_code("ArrowDown", id), do: Game.move(id, :down)
   defp move_from_key_code(_, _), do: {:error, :invalid_key_code}
-
-  defp move(id, side) do
-    GenServer.cast(via_tuple(id), side)
-  end
 end

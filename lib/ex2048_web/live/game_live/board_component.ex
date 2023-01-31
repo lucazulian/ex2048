@@ -12,7 +12,9 @@ defmodule Ex2048Web.GameLive.GridComponent do
                 <div class="grid-cell-inner-obstacle"/>
               <% else %>
                 <div class={"grid-cell-inner grid-cell-inner-#{cell}"}>
-                  <%= cell %>
+                  <%= if cell > 0 do %>
+                    <%= cell %>
+                  <% end %>
                 </div>
               <% end %>
             </div>

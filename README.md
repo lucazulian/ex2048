@@ -31,7 +31,7 @@ mix setup
 #### Start application
 
 ```bash
-mix run --no-halt
+mix phx.server
 ```
 
 
@@ -44,13 +44,13 @@ Some commands are aliases around mix aliases, just to avoid boring and repetitiv
 #### Make commands
 
 ```bash
-build                          Build all services containers
+build                          Build all containers
 delete                         Delete all containers, images and volumes
-halt                           Shoutdown all services containers
-setup                          Setup application database
-shell                          Enter into game service
+halt                           Shoutdown all containers
+setup                          Setup application
+shell                          Enter into game container
 start                          Start application
-up                             Start all services
+up                             Start all containers
 ```
 
 #### Setup the application

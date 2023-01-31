@@ -1,18 +1,80 @@
 # Ex2048
 
-To start your Phoenix server:
+A multiplayer version of 2048 game with Phoenix Liveview
 
-  * Install dependencies with `mix deps.get`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+[![CI](https://github.com/lucazulian/ex2048/actions/workflows/ci.yml/badge.svg)](https://github.com/lucazulian/ex2048/actions/workflows/ci.yml)
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## About the Application
 
-## Learn more
+TODO
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+
+## Getting started
+ 
+### Local environment
+
+In your local environment it needs to install all **Requirements** beforehand.
+
+#### Gets all dependencies
+
+```bash
+mix deps.get
+```
+
+#### Setup application
+
+```bash
+mix setup
+```
+
+#### Start application
+
+```bash
+mix run --no-halt
+```
+
+
+### Docker Compose
+
+Docker Compose is used to simplify development and configuration.
+Makefile is used as a wrapper around docker-compose commands.
+Some commands are aliases around mix aliases, just to avoid boring and repetitive commands. 
+
+#### Make commands
+
+```bash
+build                          Build all services containers
+delete                         Delete all containers, images and volumes
+halt                           Shoutdown all services containers
+setup                          Setup application database
+shell                          Enter into game service
+start                          Start application
+up                             Start all services
+```
+
+#### Setup the application
+
+```bash
+make setup
+```
+
+#### Start the application
+
+```bash
+make start
+```
+
+#### Destroy environment
+
+```bash
+make delete
+```
+
+## Assumptions
+
+  - TODO
+
+## Improvements / Missing parts
+
+  - TODO

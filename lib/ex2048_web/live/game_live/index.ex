@@ -3,9 +3,16 @@ defmodule Ex2048Web.GameLive.Index do
 
   alias Ex2048.Game
 
+  @default_size 6
+  @default_obstacles 0
+
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket |> assign(:game, Game.new())}
+    {:ok,
+     socket
+     |> assign(:game, %{})
+     |> assign(:size, @default_size)
+     |> assign(:obstacles, @default_obstacles)}
   end
 
   @impl true
@@ -16,33 +23,40 @@ defmodule Ex2048Web.GameLive.Index do
         {:noreply, assign_game(socket, id)}
 
       _ ->
-        {:noreply, assign(socket, game: %Game{})}
+        {:noreply, socket |> assign(game: nil) |> put_flash(:error, "game not found")}
     end
   end
 
   def handle_params(_params, _uri, socket) do
-    {:ok, id} = create_new_game()
-
-    {:noreply, push_redirect(socket, to: "/#{id}", replace: true)}
+    {:ok, id} = create_new_game(@default_size, @default_obstacles)
+    {:noreply, push_redirect(socket, to: "/game/#{id}", replace: true)}
   end
 
   @impl true
-  def handle_event("new_game", _value, socket) do
-    {:ok, id} = create_new_game()
-
-    {:noreply, push_redirect(socket, to: "/#{id}", replace: true)}
+  def handle_event(
+        "new_game",
+        %{"game_settings" => %{"size" => size_input, "obstacles" => obstacles_input}},
+        socket
+      ) do
+    with {size, ""} <- Integer.parse(size_input),
+         {obstacles, ""} <- Integer.parse(obstacles_input) do
+      {:ok, id} = create_new_game(size, obstacles)
+      {:noreply, push_redirect(socket, to: "/game/#{id}", replace: true)}
+    else
+      _ ->
+        {:noreply, socket |> assign(game: nil) |> put_flash(:error, "invalid inputs")}
+    end
   end
 
   def handle_event("update_grid", %{"key" => key_code}, %{assigns: %{id: id}} = socket) do
     case move_from_key_code(key_code, id) do
       :ok ->
         :ok = Phoenix.PubSub.broadcast(Ex2048.PubSub, id, :update)
+        {:noreply, socket}
 
       _ ->
-        {:noreply, put_flash(socket, :error, "invalid key pressed")}
+        {:noreply, socket}
     end
-
-    {:noreply, socket}
   end
 
   @impl true
@@ -65,13 +79,16 @@ defmodule Ex2048Web.GameLive.Index do
     assign(socket, game: game)
   end
 
-  defp create_new_game do
+  defp create_new_game(size, obstacles) do
     id =
       ?a..?z
       |> Enum.take_random(20)
       |> List.to_string()
 
-    case DynamicSupervisor.start_child(Ex2048.GameSupervisor, {Game, name: via_tuple(id)}) do
+    case DynamicSupervisor.start_child(
+           Ex2048.GameSupervisor,
+           {Game, name: via_tuple(id), game_size: size, game_obstacles: obstacles}
+         ) do
       {:ok, _pid} ->
         {:ok, id}
 

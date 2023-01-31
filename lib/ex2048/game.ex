@@ -8,12 +8,15 @@ defmodule Ex2048.Game do
   alias Ex2048.Grid
 
   def start_link(options) do
-    GenServer.start_link(__MODULE__, [], options)
+    size = Keyword.get(options, :game_size)
+    obstacles = Keyword.get(options, :game_obstacles)
+
+    GenServer.start_link(__MODULE__, new(size, obstacles), options)
   end
 
   @impl true
-  def init(_game) do
-    {:ok, new(6, 0)}
+  def init(game) do
+    {:ok, game}
   end
 
   @impl true
@@ -39,10 +42,6 @@ defmodule Ex2048.Game do
   @impl true
   def handle_cast(:down, game) do
     {:noreply, step(game, :down)}
-  end
-
-  def new do
-    %__MODULE__{grid: Grid.new(6, 0)}
   end
 
   def new(size, obstacles) when size > 0 and obstacles >= 0 do

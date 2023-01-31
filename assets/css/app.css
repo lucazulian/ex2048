@@ -121,4 +121,78 @@
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
-
+.grid-component{
+   width: 100%;
+   display: flex;
+   justify-content: center;
+}
+.game-grid{
+    position: relative;
+    padding: 16px;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -ms-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -ms-touch-action: none;
+    touch-action: none;
+    background: #bbada0;
+    border-radius: 6px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.grid-row{}
+.grid-cell{
+  width: 97.5px;
+  height: 97.5px;
+  margin-right: 12px;
+  margin-bottom: 12px;
+  float: left;
+  border-radius: 3px;
+  background: rgba(238,228,218,.35);
+}
+.grid-cell-inner{
+  font-size: 53px;
+  line-height: 98px;
+  text-align: center;
+}
+.grid-cell-inner-2{
+  background: #eee4da;
+}
+.grid-cell-inner-4{
+  background: #ede0c8;
+}
+.grid-cell-inner-8{
+  background: #f2b179;
+}
+.grid-cell-inner-16{
+  background: #f59563;
+}
+.grid-cell-inner-32{
+  background: #f67c5f;
+}
+.grid-cell-inner-64{
+  background: #f65e3b;
+}
+.grid-cell-inner-128{
+  background: #edcf72;
+}
+.grid-cell-inner-256{
+  background: #edcc61;
+}
+.grid-cell-inner-512{
+  background: #edc850;
+}
+.grid-cell-inner-1024{
+  background: #edc53f;
+}
+.grid-cell-inner-2048{
+background: #edc22e;
+}
+.grid-cell-inner-obstacle{
+  width: 97.5px;
+  height: 97.5px;
+  background: rgba(0, 0, 0, 0.5);
+}

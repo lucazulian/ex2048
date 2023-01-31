@@ -13,9 +13,10 @@ defmodule Ex2048.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Ex2048.PubSub},
       # Start the Endpoint (http/https)
-      Ex2048Web.Endpoint
-      # Start a worker by calling: Ex2048.Worker.start_link(arg)
-      # {Ex2048.Worker, arg}
+      Ex2048Web.Endpoint,
+      # Start registry and supervisor for games
+      {Registry, keys: :unique, name: Ex2048.GameRegistry},
+      {DynamicSupervisor, strategy: :one_for_one, name: Ex2048.GameSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

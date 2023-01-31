@@ -17,7 +17,8 @@ defmodule Ex2048Web.Router do
   scope "/", Ex2048Web do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", GameLive.Index, :index
+    live "/:id", GameLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

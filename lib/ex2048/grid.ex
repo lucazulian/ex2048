@@ -11,7 +11,7 @@ defmodule Ex2048.Grid do
             |> Code.string_to_quoted!()
           )
 
-  @spec new(size :: pos_integer(), obstacles :: pos_integer()) :: grid()
+  @spec new(size :: pos_integer(), obstacles :: integer()) :: grid()
   def new(size, obstacles) when size > 0 and obstacles >= 0 do
     size
     |> make_grid()

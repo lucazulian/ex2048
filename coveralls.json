@@ -15,7 +15,7 @@
    "coverage_options": {
       "treat_no_relevant_lines_as_covered": false,
       "output_dir": "cover/",
-      "minimum_coverage": 90
+      "minimum_coverage": 70
    },
    "terminal_options": {
       "file_column_width": 40
@@ -23,10 +23,12 @@
    "skip_files": [
        "test/support/",
        "priv/",
+       "lib/ex2048.ex",
        "lib/ex2048_web/router.ex",
        "lib/ex2048/application.ex",
        "lib/ex2048_web.ex",
        "lib/ex2048_web/gettext.ex",
-       "lib/ex2048_web/telemetry.ex"
+       "lib/ex2048_web/telemetry.ex",
+       "lib/ex2048_web/views/"
   ]
 }

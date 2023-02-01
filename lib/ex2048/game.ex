@@ -27,22 +27,18 @@ defmodule Ex2048.Game do
           {:ok, String.t()}
           | :ignore
           | {:error, {:already_started, pid()} | :max_children | term()}
+  @spec new(grid :: Grid.t()) ::
+          {:ok, String.t()}
+          | :ignore
+          | {:error, {:already_started, pid()} | :max_children | term()}
   def new(size, obstacles) when size > 0 and obstacles >= 0 do
-    id =
-      ?a..?z
-      |> Enum.take_random(20)
-      |> List.to_string()
+    size
+    |> Grid.new(obstacles)
+    |> build()
+  end
 
-    case DynamicSupervisor.start_child(
-           Ex2048.GameSupervisor,
-           {__MODULE__, name: via_tuple(id), game_size: size, game_obstacles: obstacles}
-         ) do
-      {:ok, _pid} ->
-        {:ok, id}
-
-      error ->
-        error
-    end
+  def new(grid) do
+    build(grid)
   end
 
   @spec move(id :: String.t(), side :: Grid.side()) :: :ok
@@ -52,10 +48,8 @@ defmodule Ex2048.Game do
 
   @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(options) do
-    size = Keyword.get(options, :game_size)
-    obstacles = Keyword.get(options, :game_obstacles)
-
-    GenServer.start_link(__MODULE__, %__MODULE__{grid: Grid.new(size, obstacles)}, options)
+    grid = Keyword.get(options, :grid)
+    GenServer.start_link(__MODULE__, %__MODULE__{grid: grid}, options)
   end
 
   @impl true
@@ -86,6 +80,24 @@ defmodule Ex2048.Game do
   @impl true
   def handle_cast(:down, game) do
     {:noreply, step(game, :down)}
+  end
+
+  defp build(grid) do
+    id =
+      ?a..?z
+      |> Enum.take_random(20)
+      |> List.to_string()
+
+    case DynamicSupervisor.start_child(
+           Ex2048.GameSupervisor,
+           {__MODULE__, name: via_tuple(id), grid: grid}
+         ) do
+      {:ok, _pid} ->
+        {:ok, id}
+
+      error ->
+        error
+    end
   end
 
   defp step(%{grid: grid, score: score}, side) do

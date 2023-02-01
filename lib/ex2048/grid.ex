@@ -3,7 +3,7 @@ defmodule Ex2048.Grid do
 
   @sides ~w|up down right left|a
 
-  @type grid() :: list(list())
+  @type t() :: list(list())
   @type side() ::
           unquote(
             @sides
@@ -11,7 +11,7 @@ defmodule Ex2048.Grid do
             |> Code.string_to_quoted!()
           )
 
-  @spec new(size :: pos_integer(), obstacles :: integer()) :: grid()
+  @spec new(size :: pos_integer(), obstacles :: integer()) :: t()
   def new(size, obstacles) when size > 0 and obstacles >= 0 do
     size
     |> make_grid()
@@ -19,7 +19,7 @@ defmodule Ex2048.Grid do
     |> randomly_set_obstacles(obstacles)
   end
 
-  @spec move(grid :: grid(), side :: side()) :: {grid(), pos_integer()}
+  @spec move(grid :: t(), side :: side()) :: {t(), pos_integer()}
   def move(grid, side)
       when is_list(grid) and side in @sides do
     case try_move(grid, side) do

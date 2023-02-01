@@ -116,3 +116,4 @@ make delete
   - performance - for big grid I think it would be useful to replace `Enum` with `Stream`
   - testing - I did not spend time on UI and end to end test but just on algorithm and overall testing
   - user - there is not user / game persistence
+  - checks - I did not spent time on some checks (like the maximum number of obstacles given a specific size etc.)

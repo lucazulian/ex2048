@@ -10,29 +10,44 @@ A multiplayer version of 2048 game with Phoenix Liveview
 TODO
 
 
+## Requirements
+
+Build and run project on your bare machine:
+
+  - Erlang/OTP **25+**
+  - elixir **1.14+**
+  
+or using docker:
+
+  - docker **20+**
+  - docker-compose **1.29+**
+  - GNU make **4+**
+  
+
+## Development links
+
+  * [Elixir Style Guide](https://github.com/christopheradams/elixir_style_guide)
+  
+
 ## Getting started
  
 ### Local environment
 
 In your local environment it needs to install all **Requirements** beforehand.
 
-#### Gets all dependencies
-
-```bash
-mix deps.get
-```
-
-#### Setup application
+#### Setup the application
 
 ```bash
 mix setup
 ```
 
-#### Start application
+#### Start the application
 
 ```bash
 mix phx.server
 ```
+
+Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 
 ### Docker Compose
@@ -53,13 +68,13 @@ start                          Start application
 up                             Start all containers
 ```
 
-#### Setup the application
+#### Setup application
 
 ```bash
 make setup
 ```
 
-#### Start the application
+#### Start application
 
 ```bash
 make start
@@ -71,9 +86,11 @@ make start
 make delete
 ```
 
+
 ## Assumptions
 
   - TODO
+
 
 ## Improvements / Missing parts
 
